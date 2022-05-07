@@ -1,0 +1,100 @@
+body {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+/*// Header //*/
+
+header {
+    padding: 20px 40px;
+}
+
+header ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+header li {
+    display: flex;
+    font-weight: bold;
+    font-size: x-large;
+}
+
+header svg {
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    transition: 0.3s ease-in-out;
+}
+
+header svg:hover {
+    box-shadow: 0px 0px 20px #88d3c5;
+}
+
+/*// Main //*/
+
+main {
+    padding: 20px;
+}
+
+main nav ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+main nav li {
+    border: 2px solid white;
+    background-color: #166053;
+    color: white;
+    padding: 10px 20px;
+    transition: 0.3s ease-in-out;
+}
+
+main nav li:hover {
+    background-color: #0a3b32;
+}
+
+main nav li.active {
+    background-color: white;
+    color: #166053;
+    font-weight: bold;
+}
+
+/*// Formulaire //*/
+
+form  div {
+    display: flex;
+    flex-direction: column;
+}
+
+form input[type=submit] {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    background-color: #166053;
+    padding: 10px 20px;
+    border: 2px solid #166053;
+    transition: 0.3s ease-in-out;
+    max-width: 150px;
+    margin-top: 10px;
+    font-family: 'Poppins', sans-serif;
+}
+
+form input[type=submit]:hover {
+    color: #166053;
+    background-color: white;
+}
+
+form label {
+    font-weight: bold;
+    margin: 5px 0px;
+}
