@@ -14,15 +14,13 @@ async function login() {
             showMessage(data.message);
         }
         if (data.response === "success") {
-            document.location.href = "./dashboard/index.html"
+            document.location.href = "./blog/index.html"
         }
     }
     catch (e) {
         showMessage("Une erreur est survenue.");
         console.log(e)
     }
-
-    // if ()
 }
 
 
