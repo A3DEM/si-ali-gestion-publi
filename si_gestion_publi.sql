@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.1
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Hôte : localhost
--- Généré le :  Dim 15 mai 2022 à 08:43
--- Version du serveur :  5.7.11
--- Version de PHP :  7.0.3
+-- Hôte : 127.0.0.1:3306
+-- Généré le : dim. 15 mai 2022 à 20:42
+-- Version du serveur : 5.7.36
+-- Version de PHP : 7.4.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `si_gestion_publi`
+-- Base de données : `si_gestion_publi`
 --
 
 -- --------------------------------------------------------
@@ -28,10 +27,12 @@ SET time_zone = "+00:00";
 -- Structure de la table `domaine`
 --
 
-CREATE TABLE `domaine` (
-  `idDomaine` smallint(6) NOT NULL,
-  `nom` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+DROP TABLE IF EXISTS `domaine`;
+CREATE TABLE IF NOT EXISTS `domaine` (
+  `idDomaine` smallint(6) NOT NULL AUTO_INCREMENT,
+  `nom` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`idDomaine`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `domaine`
@@ -49,14 +50,17 @@ INSERT INTO `domaine` (`idDomaine`, `nom`) VALUES
 -- Structure de la table `membres`
 --
 
-CREATE TABLE `membres` (
-  `idMembre` smallint(6) NOT NULL,
+DROP TABLE IF EXISTS `membres`;
+CREATE TABLE IF NOT EXISTS `membres` (
+  `idMembre` smallint(6) NOT NULL AUTO_INCREMENT,
   `nom` varchar(50) DEFAULT NULL,
   `prenom` varchar(50) DEFAULT NULL,
   `username` varchar(50) DEFAULT NULL,
   `password` varchar(50) DEFAULT NULL,
-  `idDomaine` smallint(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `idDomaine` smallint(6) NOT NULL,
+  PRIMARY KEY (`idMembre`),
+  KEY `idDomaine` (`idDomaine`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `membres`
@@ -73,8 +77,9 @@ INSERT INTO `membres` (`idMembre`, `nom`, `prenom`, `username`, `password`, `idD
 -- Structure de la table `publication`
 --
 
-CREATE TABLE `publication` (
-  `idPublication` smallint(6) NOT NULL,
+DROP TABLE IF EXISTS `publication`;
+CREATE TABLE IF NOT EXISTS `publication` (
+  `idPublication` smallint(6) NOT NULL AUTO_INCREMENT,
   `titre` varchar(50) DEFAULT NULL,
   `publishedAt` date DEFAULT NULL,
   `content` mediumtext,
@@ -83,8 +88,10 @@ CREATE TABLE `publication` (
   `issue` smallint(6) DEFAULT NULL,
   `pages` varchar(50) DEFAULT NULL,
   `publisher` varchar(50) DEFAULT NULL,
-  `idType` smallint(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `idType` smallint(6) NOT NULL,
+  PRIMARY KEY (`idPublication`),
+  KEY `idType` (`idType`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `publication`
@@ -104,10 +111,13 @@ INSERT INTO `publication` (`idPublication`, `titre`, `publishedAt`, `content`, `
 -- Structure de la table `publie`
 --
 
-CREATE TABLE `publie` (
-  `idMembre` smallint(6) NOT NULL,
-  `idPublication` smallint(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+DROP TABLE IF EXISTS `publie`;
+CREATE TABLE IF NOT EXISTS `publie` (
+  `idMembre` smallint(6) NOT NULL AUTO_INCREMENT,
+  `idPublication` smallint(6) NOT NULL,
+  PRIMARY KEY (`idMembre`,`idPublication`),
+  KEY `idPublication` (`idPublication`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `publie`
@@ -131,10 +141,12 @@ INSERT INTO `publie` (`idMembre`, `idPublication`) VALUES
 -- Structure de la table `type`
 --
 
-CREATE TABLE `type` (
-  `idType` smallint(6) NOT NULL,
-  `nom` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+DROP TABLE IF EXISTS `type`;
+CREATE TABLE IF NOT EXISTS `type` (
+  `idType` smallint(6) NOT NULL AUTO_INCREMENT,
+  `nom` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`idType`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `type`
@@ -149,77 +161,6 @@ INSERT INTO `type` (`idType`, `nom`) VALUES
 (6, 'Brevet'),
 (7, 'Document judiciaire'),
 (8, 'Autre');
-
---
--- Index pour les tables déchargées
---
-
---
--- Index pour la table `domaine`
---
-ALTER TABLE `domaine`
-  ADD PRIMARY KEY (`idDomaine`);
-
---
--- Index pour la table `membres`
---
-ALTER TABLE `membres`
-  ADD PRIMARY KEY (`idMembre`),
-  ADD KEY `idDomaine` (`idDomaine`);
-
---
--- Index pour la table `publication`
---
-ALTER TABLE `publication`
-  ADD PRIMARY KEY (`idPublication`),
-  ADD KEY `idType` (`idType`);
-
---
--- Index pour la table `publie`
---
-ALTER TABLE `publie`
-  ADD PRIMARY KEY (`idMembre`,`idPublication`),
-  ADD KEY `idPublication` (`idPublication`);
-
---
--- Index pour la table `type`
---
-ALTER TABLE `type`
-  ADD PRIMARY KEY (`idType`);
-
---
--- AUTO_INCREMENT pour les tables déchargées
---
-
---
--- AUTO_INCREMENT pour la table `domaine`
---
-ALTER TABLE `domaine`
-  MODIFY `idDomaine` smallint(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT pour la table `membres`
---
-ALTER TABLE `membres`
-  MODIFY `idMembre` smallint(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT pour la table `publication`
---
-ALTER TABLE `publication`
-  MODIFY `idPublication` smallint(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT pour la table `publie`
---
-ALTER TABLE `publie`
-  MODIFY `idMembre` smallint(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT pour la table `type`
---
-ALTER TABLE `type`
-  MODIFY `idType` smallint(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Contraintes pour les tables déchargées
