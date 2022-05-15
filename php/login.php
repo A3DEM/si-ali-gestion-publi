@@ -11,7 +11,7 @@ if ($database->connect_error) {
     die("Connection failed: " . $database->connect_error);
 }
 
-$request = $database->prepare("SELECT * FROM membres WHERE username=? AND password=?");
+$request = $database->prepare("SELECT idMembre, nom, prenom, idDomaine FROM membres WHERE username=? AND password=?");
 $request->bind_param('ss', $_GET['username'], $_GET['password']);
 
 $request->execute();

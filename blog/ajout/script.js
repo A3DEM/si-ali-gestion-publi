@@ -1,4 +1,3 @@
-document.querySelector("nav ul li:first-child").classList.add("active");
 
 function removeClass() {
     document.querySelectorAll("nav ul li").forEach(element => {
@@ -10,52 +9,44 @@ function addClass(obj) {
     document.querySelector("."+obj).classList.add("active");
 }
 
-document.querySelectorAll("nav ul li").forEach(element => {
+function changeType() {
+    console.log(document.querySelector("#types option:checked").innerText)
+    let origine;
+    switch (document.querySelector("#types option:checked").innerText) {
+        case "Revue":
+            origine = "Revue :";
+            break;
+    
+        case "Conférence":
+            origine = "Conférence :";
+            break;
 
-    let origine = "";
-
-    element.addEventListener("click", function() {
-
-        switch (this.className) {
-            case "revue":
-                origine = "Revue :";
-                break;
+        case "Chapitre":
+            origine = "Chapitre :";
+            break;
         
-            case "conference":
-                origine = "Conférence :";
-                break;
+        case "Livre":
+            origine = "Livre :";
+            break;
+        
+        case "Thèse":
+            origine = "Thèse :";
+            break;
 
-            case "chapitre":
-                origine = "Chapitre :";
-                break;
-            
-            case "livre":
-                origine = "Livre :";
-                break;
-            
-            case "these":
-                origine = "Thèse :";
-                break;
+        case "Brevet":
+            origine = "Brevet :";
+            break;
 
-            case "brevet":
-                origine = "Brevet :";
-                break;
+        case "Document judiciaire":
+            origine = "Dossier judiciaire :";
+            break;
 
-            case "judiciaire":
-                origine = "Dossier judiciaire :";
-                break;
-
-            case "autre":
-                origine = "Origine :";
-                break;
-        }
-
-        removeClass(),
-        addClass(this.className);
-
-        document.querySelector("label[for='origine']").innerHTML = origine;
-    });
-});
+        case "Autre":
+            origine = "Origine :";
+            break;
+    }
+    document.querySelector("#origine").innerHTML = origine;
+}
 
 document.querySelector("input[type='submit']").addEventListener("click", function() {
     

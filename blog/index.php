@@ -26,7 +26,7 @@ if ($database->connect_error) {
         <ul>
             <li>Bienvenue sur votre blog</li>
             <li>
-                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none"
+                <svg onclick="disconnect()" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none"
                     stroke="#166053" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
                     <line x1="12" y1="2" x2="12" y2="12"></line>
@@ -246,7 +246,7 @@ if ($database->connect_error) {
         </div>
     </main>
 
-
+    <script src="script.js"></script>
 </body>
 
 </html>
