@@ -10,16 +10,46 @@ if ($database->connect_error) {
     die("Connection failed: " . $database->connect_error);
 }
 
-if (isset($_POST["submit"])) {
-$request = $database->prepare("INSERT INTO publication(`titre`, `publishedAt`, `content`, `origine`, `volume`, `issue`, `pages`, `publisher`, `idType`)");
-VALUES ($_POST['titre'], $_POST['titre'], $_POST['publishedAt'],$_POST['content'],$_POST['origine'],$_POST['volume'],$_POST['issue'],$_POST['pages'],$_POST['publisher']));
-
+if (!isset($_POST['auteurs']) || count($_POST['auteurs']) === 0) {
+    $result = false;
 }
 
 
-if (isset($_GET['submit'])) {
-    echo "GeeksforGeeks";
+
+
+
+if (isset($_POST["submit"]) && !isset($result)) {
+    $database->set_charset("UTF8");
+    header('Content-type: text/html; charset=utf-8');
+
+    $dates = explode('-', $_POST['publishedAt']);
+
+    if (strlen($dates[0]) !== 4 && strlen($dates[1]) !== 2 && strlen($dates[2]) !== 2) {
+        $result = false;
+    }
+    $request = $database->prepare("INSERT INTO publication(`titre`, `publishedAt`, `content`, `origine`, `volume`, `issue`, `pages`, `publisher`, `idType`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $request->bind_param('sssssisss', $_POST['titre'], $_POST['publishedAt'], $_POST['content'], $_POST['origine'], $_POST['volume'], $_POST['numero'], $_POST['pages'], $_POST['editeur'], $_POST['types']);
+    $result = $request->execute();
+
+    $requestLastId = $database->query("SELECT idPublication FROM publication ORDER BY idPublication DESC LIMIT 1");
+    foreach($requestLastId as $a) {
+        $requestLastId = $a['idPublication'];
+    }
+    foreach ($_POST["auteurs"] as $auteur) {
+        $request = $database->prepare("INSERT INTO publie(idMembre, idPublication) VALUE (?, ?)");
+        $request->bind_param('ii', $auteur, $requestLastId);
+        $auteurResult = $request->execute();
+    }
 }
+
+
+
+
+if ($result && $auteurResult) {
+    header("Location: ../index.php");
+    exit();
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -51,6 +81,12 @@ if (isset($_GET['submit'])) {
     </header>
 
     <main>
+        <?php
+        if (!$result && isset($_POST["submit"])) { ?>
+            Une erreur est survenue, veuillez réessayer
+        <?php
+        }
+        ?>
         <form action="./index.php" method="post">
             <div>
                 <label for="titre">Titre :</label>
@@ -64,10 +100,14 @@ if (isset($_GET['submit'])) {
                     $requestAuthours = $database->prepare("SELECT idMembre, nom, prenom FROM `membres`");
                     $requestAuthours->execute();
                     $requestAuthours->bind_result($idMembre, $nom, $prenom);
-
+                    $i = 0;
                     while ($requestAuthours->fetch()) {
+                        $i++;
                     ?>
-                        <option value="<?php echo $idMembre; ?>"><?php echo $prenom . " " . $nom; ?></option>
+                        <option value="<?php echo $idMembre;
+                                        ?>" <?php if ($i === 1) {
+                                                echo 'selected';
+                                            } ?>><?php echo $prenom . " " . $nom; ?></option>
                     <?php
                     }
 
@@ -97,7 +137,7 @@ if (isset($_GET['submit'])) {
             </div>
             <div>
                 <label for="publishedAt">Date de publication :</label>
-                <input type="text" id="publishedAt" name="publishedAt">
+                <input type="text" id="publishedAt" placeholder="Au format AAAA-MM-JJ" name="publishedAt">
             </div>
             <div>
                 <label for="origine" id="origine">Revue :</label>
@@ -109,7 +149,7 @@ if (isset($_GET['submit'])) {
             </div>
             <div>
                 <label for="numero">Numéro :</label>
-                <input type="text" id="numero" name="numero">
+                <input type="number" id="numero" name="numero">
             </div>
             <div>
                 <label for="pages">Pages :</label>

@@ -1,14 +1,3 @@
-
-function removeClass() {
-    document.querySelectorAll("nav ul li").forEach(element => {
-        element.classList.remove("active");
-    });
-}
-
-function addClass(obj) {
-    document.querySelector("."+obj).classList.add("active");
-}
-
 function changeType() {
     console.log(document.querySelector("#types option:checked").innerText)
     let origine;
@@ -16,7 +5,7 @@ function changeType() {
         case "Revue":
             origine = "Revue :";
             break;
-    
+
         case "Conférence":
             origine = "Conférence :";
             break;
@@ -24,11 +13,11 @@ function changeType() {
         case "Chapitre":
             origine = "Chapitre :";
             break;
-        
+
         case "Livre":
             origine = "Livre :";
             break;
-        
+
         case "Thèse":
             origine = "Thèse :";
             break;
@@ -49,5 +38,5 @@ function changeType() {
 }
 
 document.querySelector("input[type='submit']").addEventListener("click", function() {
-    
+
 });

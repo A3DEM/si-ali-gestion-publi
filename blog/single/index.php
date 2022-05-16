@@ -10,6 +10,9 @@ if ($database->connect_error) {
     die("Connection failed: " . $database->connect_error);
 }
 
+$database->set_charset("UTF8");
+header('Content-type: text/html; charset=utf-8');
+
 if (isset($_GET) && !empty($_GET)) {
     $idPublication = $_GET['idPublication'];
 

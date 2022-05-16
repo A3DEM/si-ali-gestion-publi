@@ -1,10 +1,19 @@
 <?php
+session_start();
+if (!isset($_SESSION['connectedId'])) {
+    header("Location: ../index.html");
+    exit();
+}
 
 $database = new mysqli("localhost", "root", "", "si_gestion_publi");
 
 if ($database->connect_error) {
     die("Connection failed: " . $database->connect_error);
 }
+
+$database->set_charset("UTF8");
+header('Content-type: text/html; charset=utf-8');
+
 ?>
 
 <!DOCTYPE html>
@@ -51,7 +60,6 @@ if ($database->connect_error) {
                         $requestAuthours = $database->prepare("SELECT idMembre, nom, prenom FROM `membres`");     
                         $requestAuthours->execute();
                         $requestAuthours->bind_result($idMembre, $nom, $prenom);
-
                         while($requestAuthours->fetch()) {
                     ?>
                         <option value="<?php echo $idMembre; ?>" <?php if(!empty($_GET) && isset($_GET["chercheur"]) && $_GET["chercheur"] == $idMembre){ echo "selected"; } ?> ><?php echo $prenom." ".$nom; ?></option>
